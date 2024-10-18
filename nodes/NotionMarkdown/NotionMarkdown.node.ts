@@ -15,7 +15,7 @@ export class NotionMarkdown implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Notion Markdown',
 		name: 'notionMarkdown',
-		icon: 'file:notion-markdown.svg',
+		icon: 'file:notion-markdown-icon.svg',
 		group: ['transform'],
 		version: 1,
 		description: 'Node to transform markdown and notion blocks',
@@ -44,12 +44,34 @@ export class NotionMarkdown implements INodeType {
 				description: 'Choose whether you want to convert markdown to notion or vice versa',
 			},
 			{
-				displayName: 'Input',
-				name: 'input',
+				displayName: 'Input Markdown',
+				name: 'inputMarkdown',
 				type: 'string',
 				default: '',
-				placeholder: 'Place your markdown or notion blocks here',
-				description: 'The input to be transformed',
+				placeholder: 'Place your markdown here',
+				description: 'The markdown to be transformed to notion blocks',
+				displayOptions: {
+					show: {
+						operation: [
+							'markdownToNotion',
+						],
+					},
+				},
+			},
+			{
+				displayName: 'Input Notion Blocks',
+				name: 'inputNotion',
+				type: 'string',
+				default: '',
+				placeholder: 'Place your notion blocks here',
+				description: 'The notion blocks to be transformed to markdown',
+				displayOptions: {
+					show: {
+						operation: [
+							'notionToMarkdown',
+						],
+					},
+				},
 			},
 			{
 				displayName: 'Output Key',
@@ -70,7 +92,7 @@ export class NotionMarkdown implements INodeType {
 
 		let item: INodeExecutionData;
 		let operation: string;
-		let input: string;
+		let input: string | NotionBlock[];
 		let outputKey: string;
 
 		// Iterates over all input items and add the key "myString" with the
@@ -79,35 +101,25 @@ export class NotionMarkdown implements INodeType {
 		for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
 			try {
 				operation = this.getNodeParameter('operation', itemIndex, '') as string;
-				input = this.getNodeParameter('input', itemIndex, '') as string;
 				outputKey = this.getNodeParameter('outputKey', itemIndex, '') as string;
 				item = items[itemIndex];
 
 				if (operation === 'markdownToNotion') {
+					input = this.getNodeParameter('inputMarkdown', itemIndex, '') as string;
 					item.json[outputKey] = await markdownToNotion.call(this, input);
 				} else if (operation === 'notionToMarkdown') {
+					input = this.getNodeParameter('inputNotion', itemIndex, '') as NotionBlock[];
 					item.json[outputKey] = await notionToMarkdown.call(this, input);
-				} else {
-					throw new NodeOperationError(
-						this.getNode(),
-						`The operation "${operation}" is not known!`,
-					);
 				}
 			} catch (error) {
-				// This node should never fail but we want to showcase how
-				// to handle errors.
 				if (this.continueOnFail()) {
 					items.push({ json: this.getInputData(itemIndex)[0].json, error, pairedItem: itemIndex });
 				} else {
-					// Adding `itemIndex` allows other workflows to handle this error
-					if (error.context) {
-						// If the error thrown already contains the context property,
-						// only append the itemIndex
-						error.context.itemIndex = itemIndex;
-						throw error;
-					}
-					throw new NodeOperationError(this.getNode(), error, {
+					// Create a more informative error message
+					const errorMessage = error.message || 'An unknown error occurred';
+					throw new NodeOperationError(this.getNode(), `Error processing item ${itemIndex}: ${errorMessage}`, {
 						itemIndex,
+						description: error.description,
 					});
 				}
 			}
@@ -120,7 +132,7 @@ async function markdownToNotion(this: IExecuteFunctions, input: string): Promise
 	return markdownToBlocks(input);
 }
 
-async function notionToMarkdown(this: IExecuteFunctions, input: string): Promise<any> {
-	const notionBlocks: NotionBlock[] = JSON.parse(input);
-	return blocksToMarkdown(notionBlocks);
+async function notionToMarkdown(this: IExecuteFunctions, input: NotionBlock[]): Promise<string> {
+	const markdown = await blocksToMarkdown(input);
+  return markdown;
 }

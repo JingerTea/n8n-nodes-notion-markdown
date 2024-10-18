@@ -9,7 +9,7 @@ export async function blocksToMarkdown(blocks: NotionBlock[]): Promise<string> {
 
   for (const block of nestedBlocks) {
     markdown += await blockToMarkdown(block);
-    markdown += "\n";
+    markdown += "\n\n";
   }
 
   return markdown.trim();
@@ -231,7 +231,7 @@ export async function blockToMarkdown(block: NotionBlockWithChildren): Promise<s
         let callout_string = "";
 
         // Process the main content of the callout
-        callout_string += parsedData + "\n";
+        callout_string += parsedData + "\n\n";
 
         // Process children if they exist
         if (block.children && block.children.length > 0) {
@@ -241,7 +241,7 @@ export async function blockToMarkdown(block: NotionBlockWithChildren): Promise<s
               return childMd.replace(/^/gm, "  ");
             })
           );
-          callout_string += childrenMd.join("\n");
+          callout_string += childrenMd.join("\n\n");
         }
 
         parsedData = md.callout(callout_string.trim(), block[type]?.icon);
@@ -274,7 +274,7 @@ export async function blockToMarkdown(block: NotionBlockWithChildren): Promise<s
         return childMd.replace(/^/gm, "  ");
       })
     );
-    parsedData += "\n" + childrenMd.join("\n");
+    parsedData += "\n\n" + childrenMd.join("\n\n");
     parsedData = parsedData.trim();
   }
 
