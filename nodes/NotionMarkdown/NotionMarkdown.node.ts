@@ -13,13 +13,14 @@ import { NotionBlock } from '../types';
 
 export class NotionMarkdown implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'Example Node',
+		displayName: 'Notion Markdown',
 		name: 'notionMarkdown',
+		icon: 'file:notion-markdown.svg',
 		group: ['transform'],
 		version: 1,
-		description: 'Basic Example Node',
+		description: 'Node to transform markdown and notion blocks',
 		defaults: {
-			name: 'Example Node',
+			name: 'Notion Markdown',
 		},
 		inputs: ['main'],
 		outputs: ['main'],
