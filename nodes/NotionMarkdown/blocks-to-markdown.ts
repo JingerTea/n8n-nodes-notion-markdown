@@ -2,20 +2,20 @@ import * as md from '../utils/md';
 
 import { NotionBlockWithChildren, NotionBlock, Text, Equation, Annotations } from '../types';
 
-export async function blocksToMarkdown(blocks: NotionBlock[]): Promise<string> {
+export async function blocksToMarkdown(blocks: NotionBlock[], convertImagesToBase64: boolean = false): Promise<string> {
 	const nestedBlocks = createNestedBlocks(blocks);
 
 	let markdown = '';
 
 	for (const block of nestedBlocks) {
-		markdown += await blockToMarkdown(block);
+		markdown += await blockToMarkdown(block, convertImagesToBase64);
 		markdown += '\n\n';
 	}
 
 	return markdown.trim();
 }
 
-export async function blockToMarkdown(block: NotionBlockWithChildren): Promise<string> {
+export async function blockToMarkdown(block: NotionBlockWithChildren, convertImagesToBase64: boolean = false): Promise<string> {
 	if (typeof block !== 'object' || !('type' in block)) return '';
 
 	let parsedData = '';
@@ -26,7 +26,6 @@ export async function blockToMarkdown(block: NotionBlockWithChildren): Promise<s
 			{
 				let blockContent = block.image;
 				let image_title = 'image';
-				const convertImagesToBase64 = false;
 
 				const image_caption_plain = blockContent.caption
 					.map((item: any) => item.plain_text)
