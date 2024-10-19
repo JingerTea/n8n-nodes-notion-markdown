@@ -12,12 +12,15 @@ importers:
         specifier: ^1.2.4
         version: 1.2.4
       markdown-table:
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^2.0.0
+        version: 2.0.0
       node-fetch:
         specifier: ^3.3.2
         version: 3.3.2
     devDependencies:
+      '@types/markdown-table':
+        specifier: ^2.0.0
+        version: 2.0.0
       '@typescript-eslint/parser':
         specifier: ^7.15.0
         version: 7.15.0(eslint@8.57.0)(typescript@5.5.3)
@@ -105,6 +108,9 @@ packages:
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
+
+  '@types/markdown-table@2.0.0':
+    resolution: {integrity: sha512-fVZN/DRjZvjuk+lo7ovlI/ZycS51gpYU5vw5EcFeqkcX6lucQ+UWgEOH2O4KJHkSck4DHAY7D7CkVLD0wzc5qw==}
 
   '@types/mdast@3.0.15':
     resolution: {integrity: sha512-LnwD+mUEfxWMa1QpDraczIn6k0Ee3SMicuYSSzS6ZYl2gKS09EClnJYGd8Du6rfc5r/GZEk5o1mRb8TaTj03sQ==}
@@ -1332,9 +1338,6 @@ packages:
   markdown-table@2.0.0:
     resolution: {integrity: sha512-Ezda85ToJUBhM6WGaG6veasyym+Tbs3cMAw/ZhOPqXiYsr0jgocBV3j3nx+4lk47plLlIqjwuTm/ywVI+zjJ/A==}
 
-  markdown-table@3.0.3:
-    resolution: {integrity: sha512-Z1NL3Tb1M9wH4XESsCDEksWoKTdlUafKc4pt0GRwjUyXaCFZ+dc3g2erqB6zm3szA2IUSi7VnPI+o/9jnxh9hw==}
-
   matchdep@2.0.0:
     resolution: {integrity: sha512-LFgVbaHIHMqCRuCZyfCtUOq9/Lnzhi7Z0KFUE2fhD54+JN2jLh3hC02RLkqauJ3U4soU6H1J3tfj/Byk7GoEjA==}
     engines: {node: '>= 0.10.0'}
@@ -2306,6 +2309,8 @@ snapshots:
       - supports-color
 
   '@types/json-schema@7.0.15': {}
+
+  '@types/markdown-table@2.0.0': {}
 
   '@types/mdast@3.0.15':
     dependencies:
@@ -3698,8 +3703,6 @@ snapshots:
   markdown-table@2.0.0:
     dependencies:
       repeat-string: 1.6.1
-
-  markdown-table@3.0.3: {}
 
   matchdep@2.0.0:
     dependencies:
