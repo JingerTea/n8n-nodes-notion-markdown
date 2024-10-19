@@ -1,46 +1,67 @@
-![Banner image](https://user-images.githubusercontent.com/10284570/173569848-c624317f-42b1-45a6-ab09-f0ea3c247648.png)
+# Notion Markdown Node
 
-# n8n-nodes-starter
+The Notion Markdown Node is a custom node for n8n that allows you to convert between Markdown and Notion blocks. This node is particularly useful for integrating Markdown content with Notion or extracting Notion content as Markdown.
 
-This repo contains example nodes to help you get started building your own custom integrations for [n8n](n8n.io). It includes the node linter and other dependencies.
+## Author's Note
 
-To make your custom node available to the community, you must create it as an npm package, and [submit it to the npm registry](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry).
+I initially started using the minhlucvan/n8n-nodes-notionmd project, but realized that while it supported Markdown to Notion conversion, the Notion to Markdown functionality was incomplete. The purpose of this project is to provide a more comprehensive solution that fully supports bidirectional conversion between Markdown and Notion blocks, addressing the limitations of the original implementation.
 
-## Prerequisites
+## Features
 
-You need the following installed on your development machine:
+- Convert Markdown to Notion blocks
+- Convert Notion blocks to Markdown
+- Option to convert images to base64 when converting from Notion to Markdown
 
-* [git](https://git-scm.com/downloads)
-* Node.js and pnpm. Minimum version Node 18. You can find instructions on how to install both using nvm (Node Version Manager) for Linux, Mac, and WSL [here](https://github.com/nvm-sh/nvm). For Windows users, refer to Microsoft's guide to [Install NodeJS on Windows](https://docs.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-windows).
-* Install n8n with:
-  ```
-  pnpm install n8n -g
-  ```
-* Recommended: follow n8n's guide to [set up your development environment](https://docs.n8n.io/integrations/creating-nodes/build/node-development-environment/).
+## Operations
 
-## Using this starter
+### 1. Markdown to Notion
 
-These are the basic steps for working with the starter. For detailed guidance on creating and publishing nodes, refer to the [documentation](https://docs.n8n.io/integrations/creating-nodes/).
+Converts Markdown text into Notion blocks.
 
-1. [Generate a new repository](https://github.com/n8n-io/n8n-nodes-starter/generate) from this template repository.
-2. Clone your new repo:
-   ```
-   git clone https://github.com/<your organization>/<your-repo-name>.git
-   ```
-3. Run `pnpm i` to install dependencies.
-4. Open the project in your editor.
-5. Browse the examples in `/nodes` and `/credentials`. Modify the examples, or replace them with your own nodes.
-6. Update the `package.json` to match your details.
-7. Run `pnpm lint` to check for errors or `pnpm lintfix` to automatically fix errors when possible.
-8. Test your node locally. Refer to [Run your node locally](https://docs.n8n.io/integrations/creating-nodes/test/run-node-locally/) for guidance.
-9. Replace this README with documentation for your node. Use the [README_TEMPLATE](README_TEMPLATE.md) to get started.
-10. Update the LICENSE file to use your details.
-11. [Publish](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry) your package to npm.
+**Input:**
+- `inputMarkdown`: The Markdown text to be converted
 
-## More information
+**Output:**
+- Notion blocks in JSON format
 
-Refer to our [documentation on creating nodes](https://docs.n8n.io/integrations/creating-nodes/) for detailed information on building your own nodes.
+### 2. Notion to Markdown
 
-## License
+Converts Notion blocks into Markdown text.
 
-[MIT](https://github.com/n8n-io/n8n-nodes-starter/blob/master/LICENSE.md)
+**Input:**
+- `inputNotion`: The Notion blocks in JSON format to be converted
+
+**Options:**
+- `convertImagesToBase64`: When enabled, converts image URLs to base64 strings (useful since Notion URLs expire after 1 hour)
+
+**Output:**
+- Markdown text
+
+## Configuration
+
+- `Operation`: Choose between 'Markdown to Notion' or 'Notion to Markdown'
+- `Input Markdown` or `Input Notion Blocks`: The input content to be converted
+- `Output Key`: The key to use for the output in the JSON object
+- `Convert Images to Base64`: (Notion to Markdown only) Option to convert image URLs to base64
+
+## Usage
+
+1. Add the Notion Markdown node to your n8n workflow
+2. Configure the node by selecting the operation and providing the necessary input
+3. Connect the node to your workflow
+4. Run the workflow to convert between Markdown and Notion blocks
+
+## Note
+
+This node uses the `@tryfabric/martian` library for Markdown to Notion conversion and a custom `blocksToMarkdown` function for Notion to Markdown conversion.
+
+## Dependencies
+
+- n8n-workflow
+- @tryfabric/martian
+
+## Acknowledgment
+
+This project is inspired & based on the great work of:
+- https://github.com/minhlucvan/n8n-nodes-notionmd, minhlucvan/n8n-nodes-notionmd
+- https://github.com/souvikinator/notion-to-md, souvikinator/notion-to-md
