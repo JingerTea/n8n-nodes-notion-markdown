@@ -15,7 +15,7 @@ export class NotionMarkdown implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Notion Markdown',
 		name: 'notionMarkdown',
-		icon: 'file:notion-markdown-icon.svg',
+		icon: 'file:notion-markdown.svg',
 		group: ['transform'],
 		version: 1,
 		description: 'Node to transform markdown and notion blocks',
