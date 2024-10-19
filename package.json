@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-notion-markdown",
-  "version": "0.1.2",
+  "version": "0.1.5",
   "description": "n8n nodes for Notion blocks and Markdown conversion",
   "keywords": [
     "n8n-community-node-package",
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/JingerTea/n8n-nodes-notion-markdown.git"
+    "url": "git+https://github.com/JingerTea/n8n-nodes-notion-markdown.git"
   },
   "engines": {
     "node": ">=18.10",
@@ -45,6 +45,8 @@
     ]
   },
   "devDependencies": {
+    "@types/markdown-table": "^2.0.0",
+    "@types/node-fetch": "^2.6.11",
     "@typescript-eslint/parser": "^7.15.0",
     "eslint": "^8.56.0",
     "eslint-plugin-n8n-nodes-base": "^1.16.1",
@@ -57,8 +59,8 @@
     "n8n-workflow": "*"
   },
   "dependencies": {
-		"@tryfabric/martian": "^1.2.4",
-    "markdown-table": "^3.0.3",
-    "node-fetch": "^3.3.2"
+    "@tryfabric/martian": "^1.2.4",
+    "markdown-table": "^2.0.0",
+    "node-fetch": "^2.7.0"
   }
 }

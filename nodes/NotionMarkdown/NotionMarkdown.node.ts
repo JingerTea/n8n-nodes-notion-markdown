@@ -80,6 +80,20 @@ export class NotionMarkdown implements INodeType {
 				default: 'output',
 				description: 'Key to use for the output object',
 			},
+			{
+				displayName: 'Convert Images to Base64',
+				name: 'convertImagesToBase64',
+				type: 'boolean',
+				default: false,
+				description: 'Whether to convert images to base64 since Notion URLs expire in 1 hour',
+				displayOptions: {
+					show: {
+						operation: [
+							'notionToMarkdown',
+						],
+					},
+				},
+			},
 		],
 	};
 
@@ -94,6 +108,7 @@ export class NotionMarkdown implements INodeType {
 		let operation: string;
 		let input: string | NotionBlock[];
 		let outputKey: string;
+		let convertImagesToBase64: boolean;
 
 		// Iterates over all input items and add the key "myString" with the
 		// value the parameter "myString" resolves to.
@@ -102,14 +117,17 @@ export class NotionMarkdown implements INodeType {
 			try {
 				operation = this.getNodeParameter('operation', itemIndex, '') as string;
 				outputKey = this.getNodeParameter('outputKey', itemIndex, '') as string;
+				convertImagesToBase64 = this.getNodeParameter('convertImagesToBase64', itemIndex, false) as boolean;
 				item = items[itemIndex];
 
 				if (operation === 'markdownToNotion') {
+					// Markdown to Notion Blocks
 					input = this.getNodeParameter('inputMarkdown', itemIndex, '') as string;
 					item.json[outputKey] = await markdownToNotion.call(this, input);
 				} else if (operation === 'notionToMarkdown') {
+					// Notion Blocks to Markdown
 					input = this.getNodeParameter('inputNotion', itemIndex, '') as NotionBlock[];
-					item.json[outputKey] = await notionToMarkdown.call(this, input);
+					item.json[outputKey] = await notionToMarkdown.call(this, input, convertImagesToBase64);
 				}
 			} catch (error) {
 				if (this.continueOnFail()) {
@@ -132,7 +150,7 @@ async function markdownToNotion(this: IExecuteFunctions, input: string): Promise
 	return markdownToBlocks(input);
 }
 
-async function notionToMarkdown(this: IExecuteFunctions, input: NotionBlock[]): Promise<string> {
-	const markdown = await blocksToMarkdown(input);
+async function notionToMarkdown(this: IExecuteFunctions, input: NotionBlock[], convertImagesToBase64: boolean = false): Promise<string> {
+	const markdown = await blocksToMarkdown(input, convertImagesToBase64);
   return markdown;
 }

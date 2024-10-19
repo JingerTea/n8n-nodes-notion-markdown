@@ -1,7 +1,6 @@
 import { CalloutIcon } from "../types";
-// import markdownTable from "markdown-table";
-
-// import fetch from "node-fetch";
+import markdownTable from "markdown-table";
+import fetch from "node-fetch";
 
 export const inlineCode = (text: string) => {
   return `\`${text}\``;
@@ -133,6 +132,6 @@ ${children || ""}
 </details>\n\n`;
 };
 
-// export const table = (cells: string[][]) => {
-//   return markdownTable(cells);
-// };
+export const table = (cells: string[][]) => {
+  return markdownTable(cells);
+};
