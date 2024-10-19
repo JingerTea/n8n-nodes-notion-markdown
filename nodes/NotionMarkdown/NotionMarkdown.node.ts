@@ -85,7 +85,7 @@ export class NotionMarkdown implements INodeType {
 				name: 'convertImagesToBase64',
 				type: 'boolean',
 				default: false,
-				description: 'Whether to convert images to base64. Notion URLs expire in 1 hour, so converting to base64 allows permanent storage.',
+				description: 'Whether to convert images to base64 since Notion URLs expire in 1 hour',
 				displayOptions: {
 					show: {
 						operation: [
@@ -108,6 +108,7 @@ export class NotionMarkdown implements INodeType {
 		let operation: string;
 		let input: string | NotionBlock[];
 		let outputKey: string;
+		let convertImagesToBase64: boolean;
 
 		// Iterates over all input items and add the key "myString" with the
 		// value the parameter "myString" resolves to.
@@ -116,7 +117,7 @@ export class NotionMarkdown implements INodeType {
 			try {
 				operation = this.getNodeParameter('operation', itemIndex, '') as string;
 				outputKey = this.getNodeParameter('outputKey', itemIndex, '') as string;
-				const convertImagesToBase64 = this.getNodeParameter('convertImagesToBase64', itemIndex, false) as boolean;
+				convertImagesToBase64 = this.getNodeParameter('convertImagesToBase64', itemIndex, false) as boolean;
 				item = items[itemIndex];
 
 				if (operation === 'markdownToNotion') {
