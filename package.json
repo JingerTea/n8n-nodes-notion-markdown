@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-notion-markdown",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "n8n nodes for Notion blocks and Markdown conversion",
   "keywords": [
     "n8n-community-node-package",
