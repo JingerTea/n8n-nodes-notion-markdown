@@ -1,3 +1,5 @@
+![Banner image](https://user-images.githubusercontent.com/10284570/173569848-c624317f-42b1-45a6-ab09-f0ea3c247648.png)
+
 # Notion Markdown Node
 
 The Notion Markdown Node is a custom node for n8n that allows you to convert between Markdown and Notion blocks. This node is particularly useful for integrating Markdown content with Notion or extracting Notion content as Markdown.
