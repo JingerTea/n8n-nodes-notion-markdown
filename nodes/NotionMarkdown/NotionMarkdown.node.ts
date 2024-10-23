@@ -165,7 +165,7 @@ async function notionToMarkdown(this: IExecuteFunctions, input: NotionBlock[], c
   return markdown;
 }
 
-async function notionToNotion(this: IExecuteFunctions, input: NotionBlock[]): Promise<any> {
+function notionToNotion(this: IExecuteFunctions, input: NotionBlock[]): any {
   const blocks = blocksToBlocks(input);
   return blocks;
 }
